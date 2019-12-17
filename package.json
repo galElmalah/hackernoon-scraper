@@ -1,11 +1,21 @@
 {
-  "name": "medium-scraper",
+  "name": "hackernoon-scraper",
   "version": "1.0.0",
-  "description": "Scraping medium for blog posts",
-  "main": "index.js",
+  "description": "Scraping hackernoon for blog posts",
+  "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepare": "tsc",
+    "start": "tsc && node ./dist/index.js"
   },
   "author": "Gal Elmalah",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^12.12.20",
+    "typescript": "^3.7.3"
+  },
+  "dependencies": {
+    "@types/cheerio": "^0.22.15",
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3"
+  }
 }
