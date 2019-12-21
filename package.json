@@ -1,16 +1,21 @@
 {
   "name": "hackernoon-scraper",
   "version": "1.0.0",
-  "description": "Scraping hackernoon for blog posts",
+  "description": "Scraping hackernoon for blog posts related to certain tags",
   "main": "./dist/index.js",
   "scripts": {
     "prepare": "tsc",
-    "start": "tsc && node ./dist/index.js"
+    "start": "tsc && node ./dist/index.js",
+    "test:watch": "jest --watch"
   },
   "author": "Gal Elmalah",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^24.0.24",
     "@types/node": "^12.12.20",
+    "jest": "^24.9.0",
+    "nock": "^11.7.0",
+    "ts-jest": "^24.2.0",
     "typescript": "^3.7.3"
   },
   "dependencies": {
