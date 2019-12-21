@@ -1,6 +1,6 @@
 {
   "name": "hackernoon-scraper",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Scraping hackernoon for blog posts related to certain tags",
   "main": "./dist/index.js",
   "scripts": {
