@@ -9,7 +9,7 @@ const { extractBlogPostData, extractBlogPostsLinksFromTagPage } = extractors(
   axios
 );
 
-export const hackernoonScrapper: Scrapper = async (
+export const scraper: Scrapper = async (
   tags,
   currentPostsIds = new Set()
 ) => {
@@ -35,6 +35,3 @@ export const hackernoonScrapper: Scrapper = async (
   return map;
 };
 
-hackernoonScrapper(["coding"]).then(result => {
-  console.log(result.values());
-});
