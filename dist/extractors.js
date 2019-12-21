@@ -35,34 +35,37 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var UrlBuilder_1 = require("./UrlBuilder");
-var extractors_1 = require("./extractors");
-exports.hackernoonScrapper = function (tags, currentPostsIds) {
-    if (currentPostsIds === void 0) { currentPostsIds = new Set(); }
-    return __awaiter(void 0, void 0, void 0, function () {
-        var map, blogPostsLinks, posts;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    map = new Map();
-                    return [4, Promise.all(tags.map(extractors_1.extractBlogPostsLinksFromTagPage))];
-                case 1:
-                    blogPostsLinks = _a.sent();
-                    return [4, Promise.all(blogPostsLinks.map(function (tagsLink, index) {
-                            return Promise.all(tagsLink
-                                .filter(function (link) { return !currentPostsIds.has(UrlBuilder_1.UrlBuilder.extractPostIdFromLink(link)); })
-                                .map(extractors_1.extractBlogPostData(tags[index])));
-                        }))];
-                case 2:
-                    posts = _a.sent();
-                    posts.filter(Boolean).forEach(function (postData, i) { return map.set(tags[i], postData); });
-                    return [2, map];
-            }
-        });
+var axios_1 = __importDefault(require("axios"));
+var cheerio_1 = __importDefault(require("cheerio"));
+exports.extractBlogPostsLinksFromTagPage = function (tag) { return __awaiter(void 0, void 0, void 0, function () {
+    var html, $, blogLinks;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4, axios_1.default.get(UrlBuilder_1.UrlBuilder.getUrlWithTag(tag))];
+            case 1:
+                html = (_a.sent()).data;
+                $ = cheerio_1.default.load(html);
+                blogLinks = $('.story-card .title a');
+                return [2, Array.from(blogLinks).map(function (e) { return e.attribs.href; }).map(UrlBuilder_1.UrlBuilder.getPostUrl)];
+        }
     });
-};
-exports.hackernoonScrapper(['coding']).then(function (result) {
-    console.log({ result: result });
-});
-//# sourceMappingURL=index.js.map
+}); };
+exports.extractBlogPostData = function (tag) { return function (link) {
+    return axios_1.default.get(link).then(function (_a) {
+        var blogPostHtml = _a.data;
+        var $ = cheerio_1.default.load(blogPostHtml);
+        var title = $('h1.title').text().replace(/\//g, '\\');
+        var date = $('.story-meta .date').text().trim();
+        var content = $('.content').html().trim().replace(/(\n)/g, '');
+        console.log("Successfully fetched data from " + link);
+        return { title: title, date: date, content: content, tag: tag };
+    }).catch(function (e) {
+        console.log("Failed to fetch data from " + link);
+    });
+}; };
+//# sourceMappingURL=extractors.js.map
