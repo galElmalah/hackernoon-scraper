@@ -30,6 +30,7 @@ export const hackernoonScrapper: Scrapper = async (
       )
     )
   );
+  //@ts-ignore
   posts.filter(Boolean).forEach((postData, i) => map.set(tags[i], postData));
   return map;
 };
