@@ -13,4 +13,4 @@ export interface PostEntry {
 export type Scrapper = (tags: string[], currentPostsIds?: Set<string>) => Promise<Map<string, PostEntry[]>>
 ```
 
-so calling the scrapper with let say **coding** and **programming** as input will return a map with the keys **coding**, and **programming** each holding a list of posts.
+Calling the scrapper with let say **coding** and **programming** as input will return a map with the keys **coding**, and **programming** each holding a list of posts.
